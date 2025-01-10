@@ -1,0 +1,14 @@
+with-expecter: true
+mockname: "{{.InterfaceName}}"
+filename: "{{.MockName}}.go"
+outpkg: mocks
+quiet: False
+disable-version-string: True
+packages:
+  kreditplus/internal/repositories:
+    config:
+      dir: internal/repositories/mocks
+    interfaces:
+      # select the interfaces you want mocked
+      Querier:
+      DBTX:

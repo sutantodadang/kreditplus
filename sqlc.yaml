@@ -1,0 +1,20 @@
+version: "2"
+sql:
+  - engine: "mysql"
+    queries: "db/queries"
+    schema: "db/migrations"
+    gen:
+      go:
+        package: "repositories"
+        out: "internal/repositories"
+        emit_db_tags: true
+        emit_json_tags: true
+        emit_prepared_queries: true
+        emit_interface: true
+        sql_package: "database/sql"
+        sql_driver: "github.com/go-sql-driver/mysql"
+        # overrides:
+        #   - db_type: "binary"
+        #     go_type:
+        #       import: "github.com/google/uuid"
+        #       type: "UUID"
