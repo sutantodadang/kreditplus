@@ -1,10 +1,12 @@
 package middlewares
 
 import (
+	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/rs/zerolog/log"
 )
 
 // AuthMiddleware is a middleware to check if the request is authorized
@@ -12,6 +14,8 @@ func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		token := c.Request.Header.Get("Authorization")
+
+		log.Info().Msgf("Token: %s", token)
 
 		tokenSplit := strings.Split(token, " ")
 
@@ -28,7 +32,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		parseToken, err := jwt.Parse(tokenSplit[1], func(token *jwt.Token) (interface{}, error) {
-			return []byte("secret"), nil
+			return []byte(os.Getenv("JWT_SECRET")), nil
 		})
 		if err != nil {
 			c.JSON(401, gin.H{"error": "Unauthorized"})
